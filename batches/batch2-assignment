@@ -1,39 +1,48 @@
 pipeline {
-    agent none
-    stages {
-        stage('BUILD') {
-            agent any
-            steps {
-                git branch: 'master', url: 'https://github.com/Halesh1807/batch2-assignment.git'
-                sh '''
-                    #!/bin/bash
-                    pwd
-                    ls
-                    echo "This is a BUILD stage"
-                    sleep 5
-                '''
+     agent any
+       environment {
+        BRANCH = 'master'
+        GIT_REPO = 'https://github.com/Halesh1807/batch2-assignment.git'
+    }
+       stages {
+        when {
+                branch 'master'
+                beforeAgent true
             }
-        }
-        
-        stage('TESTING') {
+          
+          stage('TESTING') {
             parallel {
-                stage('TESTING1') {
-                    agent { label 'sl2' }
-                    steps {
-                        sh 'echo "This is a TESTING1 stage"'
-                        sh 'sleep 5'
+                   stage('TESTING1') {
+                      steps {
+                       script {
+                          if(env.BRANCH == 'master') 
+                        {						  
+                          sh 'echo "This is a TESTING1 stage"'
+                          sh 'sleep 3'
+						}
+						else {
+						   error("Build failed because of this and that")
+                       }
                     }
+                  }
+				  }
+						stage('TESTING2') {
+                     
+                            steps {
+                                 script {
+								 if(env.BRANCH == 'master') 
+                                 {						  
+                                      sh 'echo "This is a TESTING1 stage"'
+                                      sh 'sleep 3'
+						         }
+						           else {
+						             error("Build failed because of this and that")
+                       }
+                       
+						    }
+                        }
                 }
-                stage('TESTING2') {
-                    agent { label 'master' }
-                    steps {
-                        sh '''
-                            echo "This is a TESTING2 stage"
-                            sleep 5
-                        '''
-                    }
-                }
-            }
+           }     
         }
     }
 }
