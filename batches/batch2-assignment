@@ -9,8 +9,8 @@ pipeline {
                 branch 'master'
                 beforeAgent true
             }
-            stage ('p2'){
-                    stage('TESTING') {
+          
+          stage('TESTING') {
             parallel {
                    stage('TESTING1') {
                       steps {
@@ -45,5 +45,4 @@ pipeline {
            }     
         }
     }
-}
 }
