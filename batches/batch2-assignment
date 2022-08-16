@@ -6,7 +6,7 @@ pipeline {
     }
        stages {
         when {
-                branch 'main'
+                branch 'master'
                 beforeAgent true
             }
           
