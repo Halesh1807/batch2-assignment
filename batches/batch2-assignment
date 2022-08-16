@@ -1,16 +1,16 @@
 pipeline {
      agent any
        environment {
-        BRANCH = 'master'
+        BRANCH = 'main'
         GIT_REPO = 'https://github.com/Halesh1807/batch2-assignment.git'
     }
        stages {
         when {
-                branch 'master'
+                branch 'main'
                 beforeAgent true
             }
-            stage ('p2'){
-                    stage('TESTING') {
+          
+          stage('TESTING') {
             parallel {
                    stage('TESTING1') {
                       steps {
@@ -45,5 +45,4 @@ pipeline {
            }     
         }
     }
-}
 }
